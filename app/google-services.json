@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "432264377418",
+    "project_id": "androidapphugo",
+    "storage_bucket": "androidapphugo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432264377418:android:ae5a445ae6693f312362b3",
+        "android_client_info": {
+          "package_name": "com.carlos.primeraapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432264377418-q7m9ktm16q6mt5hcdb3jv982rdinvltk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ4clEPydPgfQgJ1i5qKwQ3a1tWZLlhjA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432264377418-q7m9ktm16q6mt5hcdb3jv982rdinvltk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
