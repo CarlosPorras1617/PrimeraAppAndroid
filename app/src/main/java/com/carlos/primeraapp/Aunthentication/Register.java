@@ -6,20 +6,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.carlos.primeraapp.R;
 
 public class Register extends AppCompatActivity {
-
+    //declaramos botones
+    Button botonIniciarSesion, botonRegistrarseToApp;
+    EditText txtNombreToRegister, txtCorreoToRegister, txtPasswordToRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        //declaramos botones
-        Button botonIniciarSesion;
-
         //llamamos a los botones
         botonIniciarSesion = findViewById(R.id.botonIniciarSesion);
+        botonRegistrarseToApp = findViewById(R.id.botonRegistrarseToApp);
+        txtNombreToRegister = findViewById(R.id.txtNombreToRegister);
+        txtCorreoToRegister = findViewById(R.id.txtCorreoToRegister);
+        txtPasswordToRegister = findViewById(R.id.txtPasswordToRegister);
+
+        botonRegistrarseToApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signUpToApp();
+            }
+        });
+
 
         //llamamos al evento click
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +41,12 @@ public class Register extends AppCompatActivity {
                 metodoCambiarVentana2();
             }
         });
+    }
+
+    private void signUpToApp() {
+        String email = txtCorreoToRegister.getText().toString();
+        String password = txtPasswordToRegister.getText().toString();
+        Toast.makeText(this, "Los datos son "+email+" "+password, Toast.LENGTH_SHORT).show();
     }
 
     public void metodoCambiarVentana2(){
