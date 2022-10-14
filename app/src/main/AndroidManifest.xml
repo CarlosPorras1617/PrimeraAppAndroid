@@ -14,27 +14,32 @@
         android:theme="@style/Theme.PrimeraApp"
         tools:targetApi="31">
         <activity
+            android:name=".ButtonNavigation.Home"
+            android:exported="true"
+            android:label="@string/title_activity_home" >
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity
             android:name=".Aunthentication.Register"
             android:exported="false" />
         <activity
             android:name=".Aunthentication.Login"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".intent.SignUp"
             android:exported="false">
             //para iniciar de home el signup
-
         </activity>
         <activity
             android:name=".intent.MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>
