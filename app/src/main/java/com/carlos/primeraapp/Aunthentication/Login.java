@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
     //declaramos botones e input
-    Button botonRegistrarse, botonIniciarSesionLogin;
+    Button botonRegistrarse, botonIniciarSesionLogin, ForgotPasswordButton;
     EditText txtEmailLogin, txtPasswordLogin;
     FirebaseAuth mAuth;
     @Override
@@ -30,6 +30,7 @@ public class Login extends AppCompatActivity {
 
         //llamamos a los botones
         mAuth = FirebaseAuth.getInstance();
+        ForgotPasswordButton = findViewById(R.id.ForgotPasswordButton);
         botonRegistrarse = findViewById(R.id.botonRegistrarse);
         botonIniciarSesionLogin = findViewById(R.id.botonIniciarSesionLogin);
         txtEmailLogin = findViewById(R.id.txtEmailLogin);
@@ -42,6 +43,14 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        //ir a olvide mi password
+        ForgotPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotMyPasswordPage();
+            }
+        });
+
         //llamamos al evento click del boton para mandar a llamar el metodo de cambiar ventana
         botonRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,10 +60,16 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    private void forgotMyPasswordPage() {
+        Intent intent = new Intent(Login.this, OlvidePassword.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void loginToApp() {
         String email = txtEmailLogin.getText().toString();
         String password = txtPasswordLogin.getText().toString();
-        if (password == null || email == null) {
+        if (password.isEmpty() || email.isEmpty()) {
             Toast.makeText(this, "Estan vacios", Toast.LENGTH_SHORT).show();
         }else{
             mAuth.signInWithEmailAndPassword(email, password)
