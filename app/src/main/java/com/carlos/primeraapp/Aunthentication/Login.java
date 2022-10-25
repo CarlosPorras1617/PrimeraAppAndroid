@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.carlos.primeraapp.ButtonNavigation.Home;
 import com.carlos.primeraapp.R;
 import com.carlos.primeraapp.intent.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -91,7 +92,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void moveToHome() {
-        Intent intent = new Intent(Login.this, MainActivity.class);
+        Intent intent = new Intent(Login.this, Home.class);
         startActivity(intent);
         finish();
     }
@@ -101,5 +102,16 @@ public class Login extends AppCompatActivity {
         Intent intent = new Intent(Login.this, Register.class);
         startActivity(intent);
         finish();
+    }
+
+    //chechar estado de la sesion
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            moveToHome();
+        }
     }
 }

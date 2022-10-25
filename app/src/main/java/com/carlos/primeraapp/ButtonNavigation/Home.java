@@ -1,7 +1,12 @@
 package com.carlos.primeraapp.ButtonNavigation;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import com.carlos.primeraapp.Aunthentication.Login;
 import com.carlos.primeraapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -12,10 +17,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.carlos.primeraapp.databinding.ActivityHomeBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Home extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +30,8 @@ public class Home extends AppCompatActivity {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        mAuth = FirebaseAuth.getInstance();
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -33,6 +42,31 @@ public class Home extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.item_signout:
+                logOut();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logOut() {
+        mAuth.signOut();
+        startActivity(new Intent(Home.this, Login.class));
+        finish();
     }
 
 }
