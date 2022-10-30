@@ -1,5 +1,7 @@
 package com.carlos.primeraapp.ButtonNavigation;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -64,9 +66,21 @@ public class Home extends AppCompatActivity {
     }
 
     private void logOut() {
-        mAuth.signOut();
-        startActivity(new Intent(Home.this, Login.class));
-        finish();
+        //alerta mensaje para confirmar el cierre de sesion
+        new AlertDialog.Builder(this).setTitle("ALERTA").setMessage("Estas segura pa?").setPositiveButton("Eii", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                mAuth.signOut();
+                startActivity(new Intent(Home.this, Login.class));
+                finish();
+            }
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).show();
+
     }
 
 }
