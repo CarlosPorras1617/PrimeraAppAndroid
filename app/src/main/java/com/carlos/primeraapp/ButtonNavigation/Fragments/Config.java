@@ -34,6 +34,15 @@ public class Config extends Fragment {
 
         //ahora si, acceder a lo atributos xml una vez creado el layout de fragment_config
         Button eliminarCuenta = view.findViewById(R.id.eliminarCuentaBoton);
+        Button cambiarPassword = view.findViewById(R.id.cambiarPasswordBoton2);
+
+        cambiarPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setAlertDialog(1);
+            }
+        });
+
         eliminarCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View buttonView) {
@@ -49,9 +58,15 @@ public class Config extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View dialogView = getActivity().getLayoutInflater().inflate(R.layout.dialog_authentication, null);
 
+        EditText newPassword = dialogView.findViewById(R.id.dialogNuevoPassword);
         EditText email = dialogView.findViewById(R.id.dialogEmail);
         EditText password = dialogView.findViewById(R.id.dialogPassword);
         Button reauthenticate = dialogView.findViewById(R.id.ReAuthenticationBoton);
+
+        //habilitar new password field o no
+        if (option == 1) {
+            newPassword.setVisibility(View.VISIBLE);
+        }
 
         builder.setView(dialogView);
         AlertDialog alertDialog = builder.create();
@@ -70,7 +85,7 @@ public class Config extends Fragment {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                       getOption(option, alertDialog);
+                                       getOption(option, alertDialog, newPassword.getText().toString());
                                     }else{
                                         alertDialog.dismiss();
                                         Toast.makeText(getContext(), "Error al autenticar", Toast.LENGTH_SHORT).show();
@@ -84,9 +99,20 @@ public class Config extends Fragment {
 
     }
 
-    private void getOption(int option, AlertDialog alertDialog) {
+    private void getOption(int option, AlertDialog alertDialog, String newPassword) {
+        //si es cambio de password
         if (option == 1) {
-
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            user.updatePassword(newPassword)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                alertDialog.dismiss();
+                                Toast.makeText(getContext(), "Password Actualizada", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         }else{
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             user.delete()
