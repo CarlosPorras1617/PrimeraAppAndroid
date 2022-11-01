@@ -1,7 +1,9 @@
 package com.carlos.primeraapp.ButtonNavigation.Fragments;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.carlos.primeraapp.Aunthentication.Login;
@@ -26,15 +29,23 @@ import com.google.firebase.auth.FirebaseUser;
 public class Config extends Fragment {
     //personalizar alerta
     View view;
+    TextView txtuid;
+    SharedPreferences sharedPref;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_config, container, false);
+        sharedPref = getActivity().getSharedPreferences(
+                "user info", Context.MODE_PRIVATE);
+        String uid = sharedPref.getString("uid", "No se encontro");
+
 
         //ahora si, acceder a lo atributos xml una vez creado el layout de fragment_config
         Button eliminarCuenta = view.findViewById(R.id.eliminarCuentaBoton);
         Button cambiarPassword = view.findViewById(R.id.cambiarPasswordBoton2);
+        txtuid = view.findViewById(R.id.uidUser);
+        txtuid.setText(uid);
 
         cambiarPassword.setOnClickListener(new View.OnClickListener() {
             @Override
