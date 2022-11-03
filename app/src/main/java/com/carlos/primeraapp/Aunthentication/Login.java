@@ -44,24 +44,20 @@ public class Login extends AppCompatActivity {
         botonIniciarSesionLogin = findViewById(R.id.botonIniciarSesionLogin);
         txtEmailLogin = findViewById(R.id.txtEmailLogin);
         txtPasswordLogin = findViewById(R.id.txtPasswordLogin);
-
         sharedPref = this.getSharedPreferences(
                 "user info", Context.MODE_PRIVATE);
+        Boolean estatus = sharedPref.getBoolean("isChecked", false);
+        String userEmail = sharedPref.getString("userEmail", "");
+        String userPass = sharedPref.getString("userPass", "");
 
-        String userEmail = sharedPref.getString("userEmail", txtEmailLogin.getText().toString());
-        String userPass = sharedPref.getString("userPass", txtPasswordLogin.getText().toString());
-
-        toggleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    txtEmailLogin.setText(userEmail);
-                    txtPasswordLogin.setText(userPass);
-                }else{
-                    Toast.makeText(Login.this, "No Jala", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        if (estatus) {
+            Toast.makeText(this, "estatus activo", Toast.LENGTH_SHORT).show();
+            txtEmailLogin.setText(userEmail);
+            txtPasswordLogin.setText(userPass);
+            toggleSwitch.setChecked(estatus);
+        }else{
+            toggleSwitch.setChecked(estatus);
+        }
 
         botonIniciarSesionLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +92,8 @@ public class Login extends AppCompatActivity {
     private void loginToApp() {
         String email = txtEmailLogin.getText().toString();
         String password = txtPasswordLogin.getText().toString();
+        //obtenemos valor switch
+        Boolean estatus = toggleSwitch.isChecked();
         if (password.isEmpty() || email.isEmpty()) {
             Toast.makeText(this, "Estan vacios", Toast.LENGTH_SHORT).show();
         }else{
@@ -106,15 +104,25 @@ public class Login extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Toast.makeText(Login.this, "Se inicio sesion", Toast.LENGTH_SHORT).show();
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString("uid", user.getUid());
-                                editor.putString("userEmail", txtEmailLogin.getText().toString());
-                                editor.putString("userPass", txtPasswordLogin.getText().toString());
-                                editor.apply();
+                                if (estatus) {
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString("uid", user.getUid());
+                                    editor.putString("userEmail", txtEmailLogin.getText().toString());
+                                    editor.putString("userPass", txtPasswordLogin.getText().toString());
+                                    editor.putBoolean("isChecked", estatus);
+                                    editor.apply();
+                                }else{
+                                    Toast.makeText(Login.this, "Se inicio sesion", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putString("userEmail", "");
+                                    editor.putString("userPass", "");
+                                    editor.putBoolean("isChecked", false);
+                                    editor.apply();
+                                }
                                 moveToHome();
                             } else {
                                 Toast.makeText(Login.this, "Error de inicio de sesion", Toast.LENGTH_SHORT).show();
-                                //updateUI(null);
+
                             }
                         }
                     });
