@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.carlos.primeraapp.HttpRequest.API;
@@ -26,7 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Inicio extends Fragment {
     //vista global
     View view;
-
+    EditText tituloNote;
+    EditText mensajeNote;
+    Button botonMandarNota;
     //instanciamos nuestra api de manera globgal
     API api = new API();
     @Override
@@ -35,8 +39,21 @@ public class Inicio extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
+        tituloNote = view.findViewById(R.id.tituloNote);
+        mensajeNote = view.findViewById(R.id.mensajeNote);
+
+        //boton
+        botonMandarNota = view.findViewById(R.id.botonMandarNota);
+
+        //funcion insertar
+        botonMandarNota.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setNote(tituloNote.getText().toString(), mensajeNote.getText().toString());
+            }
+        });
         //funcion que recibe un titulo y un mensaje
-        setNote("Titulo", "Mensaje");
+        //setNote("Titulo", "Mensaje");
 
         return view;
     }
