@@ -2,14 +2,14 @@ package com.carlos.primeraapp.HttpRequest.Response;
 //funciona como el modelo
 public class Notes {
     int id;
-    String titulo;
-    String mensaje;
+    String title;
+    String message;
     String date;
 
-    public Notes(int id, String titulo, String mensaje, String date) {
+    public Notes(int id, String title, String message, String date) {
         this.id = id;
-        this.titulo = titulo;
-        this.mensaje = mensaje;
+        this.title = title;
+        this.message = message;
         this.date = date;
     }
 
@@ -17,12 +17,12 @@ public class Notes {
         return id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
-    public String getMensaje() {
-        return mensaje;
+    public String getMessage() {
+        return message;
     }
 
     public String getDate() {
